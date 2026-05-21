@@ -4,6 +4,7 @@ const { type } = require('node:os');
 
 
 const adminSchema = new mongoose.Schema({
+    
     username: {
         type:String,
         required : [true,"Username Is required"]
@@ -22,8 +23,6 @@ const adminSchema = new mongoose.Schema({
 
 },{timestamps: true});
 
-
-
 adminSchema.pre("save", async function(next) {
 
     if(!this.isModified("password")) return next();
@@ -31,13 +30,9 @@ adminSchema.pre("save", async function(next) {
 
 });
 
-
 adminSchema.method.comparepassword = async function (mtachedpassword) {
     return await becrypt.compare(mtachedpassword , this.password)
 };
 
-
 const Admin = mongoose.model("Admin",adminSchema);
 module.exports = Admin;
-    
-   
